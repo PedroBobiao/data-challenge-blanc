@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: analytics
+      POSTGRES_PASSWORD: analytics
+      POSTGRES_DB: superstore
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data

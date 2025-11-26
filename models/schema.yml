@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg__orders
+    description: Staging model for raw orders data.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: product_id
+        tests:
+          - not_null
+
+      - name: quantity
+        tests:
+          - not_null
+
+  - name: stg__returns
+    description: Staging model for raw returns data.
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+                
+      - name: is_returned
+        tests:
+          - not_null
+
+  - name: fct__orders
+    description: Fact table containing one row per order item, joined with return information.
+    columns:          
+      - name: order_id
+        tests:
+          - relationships:
+              to: ref('stg__returns')
+              field: order_id
+              severity: warn 
+              
+      - name: sales
+        tests:
+          - not_null
+
+      - name: quantity
+        tests:
+          - not_null
